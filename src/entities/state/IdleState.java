@@ -1,5 +1,6 @@
 package entities.state;
 
+import entities.Entity;
 import entities.Sprite;
 import utils.HelpMethods;
 
@@ -7,8 +8,8 @@ import java.awt.*;
 
 public class IdleState extends EntityState {
 
-    public IdleState(String imageFolderPath, int numAnimationsFrames, int numType) {
-        super(imageFolderPath, numAnimationsFrames, numType);
+    public IdleState(Entity currentEntity, String imageFolderPath, int numAnimationsFrames, int numType) {
+        super(currentEntity, imageFolderPath, numAnimationsFrames, numType);
         loadImages();
     }
 

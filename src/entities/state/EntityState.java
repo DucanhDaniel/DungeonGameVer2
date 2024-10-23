@@ -15,7 +15,8 @@ public abstract class EntityState {
     private int cnt = 0;
     public Entity currentEntity;
 
-    public EntityState(String imageFolderPath, int numAnimationsFrames,  int numType) {
+    public EntityState(Entity currentEntity, String imageFolderPath, int numAnimationsFrames,  int numType) {
+        this.currentEntity = currentEntity;
         this.imageFolderPath = imageFolderPath;
         this.numAnimationsFrames = numAnimationsFrames;
         this.numType = numType;
