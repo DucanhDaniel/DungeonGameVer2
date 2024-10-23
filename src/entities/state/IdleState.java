@@ -15,14 +15,14 @@ public class IdleState extends EntityState {
     public void loadImages() {
         for (int type = 0; type < numType; type++)
             for (int i = 0; i < numAnimationsFrames; i++) {
-                up[i][type] = HelpMethods.setUp(imageFolderPath + "idle_up_" + (i + 1), currentEntity.width, currentEntity.height);
-                down[i][type] = HelpMethods.setUp(imageFolderPath + "idle_down_" + (i + 1), currentEntity.width, currentEntity.height);
-                left[i][type] = HelpMethods.setUp(imageFolderPath + "idle_left_" + (i + 1), currentEntity.width, currentEntity.height);
-                right[i][type] = HelpMethods.setUp(imageFolderPath + "idle_right_" + (i + 1), currentEntity.width, currentEntity.height);
-                up_left[i][type] = HelpMethods.setUp(imageFolderPath + "idle_up_left_" + (i + 1), currentEntity.width, currentEntity.height);
-                up_right[i][type] = HelpMethods.setUp(imageFolderPath + "idle_up_right_" + (i + 1), currentEntity.width, currentEntity.height);
-                down_left[i][type] = HelpMethods.setUp(imageFolderPath + "idle_down_left_" + (i + 1), currentEntity.width, currentEntity.height);
-                down_right[i][type] = HelpMethods.setUp(imageFolderPath + "idle_down_right_" + (i + 1), currentEntity.width, currentEntity.height);
+                up[i][type] = HelpMethods.setUp(imageFolderPath + "idle_up" + (i + 1), currentEntity.width, currentEntity.height);
+                down[i][type] = HelpMethods.setUp(imageFolderPath + "idle_down" + (i + 1), currentEntity.width, currentEntity.height);
+                left[i][type] = HelpMethods.setUp(imageFolderPath + "idle_left" + (i + 1), currentEntity.width, currentEntity.height);
+                right[i][type] = HelpMethods.setUp(imageFolderPath + "idle_right" + (i + 1), currentEntity.width, currentEntity.height);
+                up_left[i][type] = HelpMethods.setUp(imageFolderPath + "idle_up_left" + (i + 1), currentEntity.width, currentEntity.height);
+                up_right[i][type] = HelpMethods.setUp(imageFolderPath + "idle_up_right" + (i + 1), currentEntity.width, currentEntity.height);
+                down_left[i][type] = HelpMethods.setUp(imageFolderPath + "idle_down_left" + (i + 1), currentEntity.width, currentEntity.height);
+                down_right[i][type] = HelpMethods.setUp(imageFolderPath + "idle_down_right" + (i + 1), currentEntity.width, currentEntity.height);
             }
     }
 
