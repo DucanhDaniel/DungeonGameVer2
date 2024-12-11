@@ -315,4 +315,23 @@ public class UI {
             g2.drawString(str[i], x, y);
         }
     }
+
+//    ----------------- Draw Timer --------------------
+    public void drawClock(Graphics2D g2) {
+        String timeText = "Time: " + formatTime(playing.getGame().totalElapsedTime);
+        g2.setFont(maruMonica);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 24F));
+        g2.setColor(Color.WHITE);
+        int x = SCREEN_WIDTH - TILE_SIZE * 3;
+        int y = TILE_SIZE;
+        g2.drawString(timeText, x, y);
+    }
+
+    private String formatTime(long elapsedTime) {
+        long minutes = elapsedTime / 60;
+        long seconds = elapsedTime % 60;
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+//    ----------------------------------------------------
+
 }

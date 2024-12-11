@@ -1,5 +1,6 @@
 {
   "currentLevel": "level4",
+  "timer": 0,
   "player" : {
     "worldX" : 1116,
     "worldY" : 1709,

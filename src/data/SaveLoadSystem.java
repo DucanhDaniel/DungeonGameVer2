@@ -1,4 +1,5 @@
 package data;
+import api.ApiClient;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gamestates.Playing;
@@ -11,6 +12,7 @@ public class SaveLoadSystem {
     private Playing playing;
     private Game game;
     private DoorSystem doorSystem;
+
     private MonsterAreaSystem monsterAreaSystem;
 
     private CollectibleSystem collectibleSystem;
@@ -22,6 +24,7 @@ public class SaveLoadSystem {
     }
 
     public SaveLoadSystem(Playing playing) {
+        this.game = playing.getGame();
         this.playing = playing;
         this.doorSystem = playing.getDoorSystem();
         this.monsterAreaSystem = playing.getMonsterAreaSystem();
@@ -33,6 +36,7 @@ public class SaveLoadSystem {
     public void saveGame() {
         GameData gameData = new GameData();
         gameData.currentLevel = playing.currentLevel;
+        gameData.timer = game.totalElapsedTime;
         gameData.player.saveData(playing.getPlayer());
         gameData.monsters.saveData(playing.monsters);
         gameData.npcsData.saveData(playing.npcArray);
@@ -43,22 +47,35 @@ public class SaveLoadSystem {
         gameData.collectibleSystem = collectibleSystem;
 
         try {
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("save.json"), gameData);
+            String jsonData = objectMapper.writeValueAsString(gameData);
+            game.api.saveGame(game.getAuthSystem().username, jsonData);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void loadGame() {
-        loadGame("save");
+    public void loadNewGame(String level) {
+        try {
+            GameData gameData = objectMapper.readValue(new File(level + ".json"), GameData.class);
+            loadGame(gameData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void loadGame(String filePath) {
-
+    public void loadSavedGame(String username) {
+        String data = game.api.getSavedGameByUserName(username);
         try {
-            GameData gameData = objectMapper.readValue(new File(filePath + ".json"), GameData.class);
+            GameData gameData = objectMapper.readValue(data, GameData.class);
+            loadGame(gameData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void loadGame(GameData gameData) {
             playing.currentLevel = gameData.currentLevel;
+            game.totalElapsedTime = gameData.timer;
 
             gameData.player.loadData(playing.getPlayer());
             gameData.monsters.loadData(playing);
@@ -88,9 +105,6 @@ public class SaveLoadSystem {
             playing.setUpList();
             playing.loadMap();
             playing.setLevelTheme();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void saveSettings() {

@@ -1,20 +1,21 @@
 package main;
 
 import java.awt.*;
+import javax.swing.Timer;
 
-import data.SaveLoad;
+import api.ApiClient;
 import data.SaveLoadSystem;
 import gamestates.*;
 import gamestates.Menu;
+import gamestates.auth.Login;
 import inputs.KeyboardInputs;
-import utils.ImageManager;
+import system.AuthSystem;
 
 import static utils.Constants.Screen.*;
 
 public class Game implements Runnable {
 
     private Thread gameThread;
-    public ImageManager imageManager;
     private GamePanel gamePanel;
     private GameWindow gameWindow;
     private Playing playing;
@@ -24,6 +25,11 @@ public class Game implements Runnable {
     private final CollisionChecker collisionChecker;
     private Pause pause;
     private UI ui;
+
+    private Login login;
+
+    public ApiClient api;
+    private AuthSystem authSystem;
 
     private SaveLoadSystem settings = new SaveLoadSystem(this);
     public SaveLoadSystem getSettings() {
@@ -46,6 +52,8 @@ public class Game implements Runnable {
         return pause;
     }
 
+    public Login getLogin() { return login; }
+
     public KeyboardInputs getKeyboardInputs() {
         return gamePanel.getKeyboardInputs();
     }
@@ -53,18 +61,16 @@ public class Game implements Runnable {
     public UI getUI() {
         return ui;
     }
+    public AuthSystem getAuthSystem() { return authSystem; }
 
     public Game() {
-
+        gamePanel = new GamePanel(this);
+        gameWindow = new GameWindow(gamePanel);
         initClasses();
         settings.loadSettings();
         playing.setLevelTheme();
         ui = new UI(this);
-        imageManager = ImageManager.getInstance();
-        gamePanel = new GamePanel(this);
-        gameWindow = new GameWindow(gamePanel);
         collisionChecker = new CollisionChecker(this);
-
         startGameLoop();
     }
 
@@ -74,6 +80,9 @@ public class Game implements Runnable {
         pause = new Pause(this);
         gameOver = new GameOver(this);
         cutScene = new CutScene(this);
+        login = new Login(this);
+        api = new ApiClient();
+        authSystem = new AuthSystem(this);
     }
 
     private void startGameLoop() {
@@ -124,8 +133,12 @@ public class Game implements Runnable {
         }
     }
 
+
     public void update() {
         switch (Gamestate.state) {
+            case LOGIN:
+                login.update();
+                break;
             case MENU:
                 menu.update();
                 break;
@@ -149,6 +162,9 @@ public class Game implements Runnable {
 
     public void render(Graphics2D g) {
         switch (Gamestate.state) {
+            case LOGIN:
+                login.draw(g);
+                break;
             case MENU:
                 menu.draw(g);
                 break;
@@ -171,5 +187,38 @@ public class Game implements Runnable {
 
     public GameOver getGameOver() {
         return gameOver;
+    }
+
+//    -------------- start new game --------------
+    public long startTime;
+    public long elapsedTime;
+
+    public long totalElapsedTime;
+
+    private Timer timer;
+
+    public void startNewGame() {
+        startTime = System.currentTimeMillis();
+        elapsedTime = 0; // Reset thời gian
+
+        timer = new Timer(1000, e -> {
+            totalElapsedTime = elapsedTime + (System.currentTimeMillis() - startTime) / 1000;
+        });
+        timer.start();
+    }
+
+    public void stopGame() {
+        timer.stop();
+        elapsedTime += (System.currentTimeMillis() - startTime) / 1000;
+    }
+
+    public void continueGame() {
+        startTime = System.currentTimeMillis();
+        timer = new Timer(1000, e -> {
+            long currentElapsedTime = (System.currentTimeMillis() - startTime) / 1000; // Thời gian mới
+            totalElapsedTime = elapsedTime + currentElapsedTime; // Tổng thời gian
+//            System.out.println("Elapsed Time: " + totalElapsedTime + " seconds");
+        });
+        timer.start();
     }
 }

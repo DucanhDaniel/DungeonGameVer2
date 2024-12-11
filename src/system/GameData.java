@@ -6,6 +6,7 @@ import data.PlayerData;
 
 public class GameData {
     public String currentLevel;
+    public long timer;
     public PlayerData player;
     public MonstersData monsters;
     public NPCsData npcsData;

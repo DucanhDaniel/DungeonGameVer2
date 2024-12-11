@@ -38,6 +38,7 @@ public class Playing extends State implements Statemethods {
     // Camera shake
     public CameraShake cameraShake;
 
+
     private ProjectileManager projectileManager;
     public CollectibleSystem collectibleSystem;
     public DoorSystem doorSystem;
@@ -56,7 +57,7 @@ public class Playing extends State implements Statemethods {
     public Npc[] npcArray;
 
     // Level
-    public String currentLevel = "level4";
+    public String currentLevel = "level1";
     public EnergyOrb energyOrb = null;
     public NextLevel nextLevel = null;
 
@@ -74,7 +75,11 @@ public class Playing extends State implements Statemethods {
 //        setLevelTheme();
 
         saveLoadSystem = new SaveLoadSystem(this);
-        saveLoadSystem.loadGame(currentLevel);
+        saveLoadSystem.loadNewGame(currentLevel);
+    }
+
+    private void loadGame(String currentLevel) {
+
     }
 
     public void setDefaultValues() {
@@ -195,6 +200,7 @@ public class Playing extends State implements Statemethods {
 
         if (KeyboardInputs.isPressedValid("pause", game.getKeyboardInputs().pausePressed)) {
             Gamestate.state = Gamestate.PAUSE;
+            game.stopGame();
         }
 
         if (nextLevel != null) {
@@ -227,6 +233,7 @@ public class Playing extends State implements Statemethods {
                 });
 
         game.getUI().drawPlayerUI(g2);
+        game.getUI().drawClock(g2);
 
         if (npcTalking != null) game.getUI().drawDialogueScreen(npcTalking.talk(), g2);
 

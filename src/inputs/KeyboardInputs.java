@@ -20,6 +20,10 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
 
     public int mousePressedScreenX, mousePressedScreenY;
 
+    public boolean deletePressed;
+    public boolean tabPressed;
+    public char keyChar;
+
     public KeyboardInputs(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
@@ -47,12 +51,20 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
+
+        if (Gamestate.state == Gamestate.LOGIN) {
+            if (code == KeyEvent.VK_ENTER) enterPressed = false;
+            else if (code == KeyEvent.VK_BACK_SPACE) deletePressed = false;
+            else if (code == KeyEvent.VK_TAB) tabPressed = false;
+            else keyChar = '\0';
+            return;
+        }
+
         if (code == KeyEvent.VK_W) {
             upPressed = false;
         }
@@ -81,6 +93,12 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
+
+        if (Gamestate.state == Gamestate.LOGIN) {
+            gamePanel.getGame().getLogin().handleKeyboardInputs(e);
+            return;
+        }
+
         if (code == KeyEvent.VK_W) {
             upPressed = true;
         }
@@ -112,7 +130,6 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
     public int getMouseY() {
         return gamePanel.getMouseY();
     }
-
 
 
     public static boolean prevUp = false, prevDown = false, prevLeft = false, prevRight = false;

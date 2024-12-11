@@ -2,8 +2,8 @@ package gamestates;
 
 public enum Gamestate {
 
-    PLAYING, MENU, PAUSE, GAME_OVER, CUTSCENE;
+    PLAYING, MENU, PAUSE, GAME_OVER, CUTSCENE, LOGIN;
 
-    public static Gamestate state = MENU;
+    public static Gamestate state = LOGIN;
 
 }

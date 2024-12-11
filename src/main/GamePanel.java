@@ -42,6 +42,7 @@ public class GamePanel extends JPanel{
         setDoubleBuffered(true); // Make game render better
         addKeyListener(keyboardInputs);
         setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
 //        this.eventHandler = new EventHandler(this);
     }
     public void paintComponent(Graphics g) {

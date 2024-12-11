@@ -232,7 +232,7 @@ public class CutScene implements Statemethods {
                     g2.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
                     if (frameCnt2 >= 240) {
                         Gamestate.state = Gamestate.MENU;
-                        playing.getSaveLoadSystem().loadGame("level1");
+                        playing.getSaveLoadSystem().loadNewGame("level1");
                         playing.nextLevel = null;
                         player = null;
                     }

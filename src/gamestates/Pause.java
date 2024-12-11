@@ -33,6 +33,7 @@ public class Pause extends State implements Statemethods {
             case mainPanel:
                 if (KeyboardInputs.isPressedValid("pause", keyboardInputs.pausePressed)) {
                     Gamestate.state = Gamestate.PLAYING;
+                    game.continueGame();
                 } else if (KeyboardInputs.isPressedValid("up", keyboardInputs.upPressed)) {
                     commandIndex--;
                     if (commandIndex < 0) commandIndex = 0;

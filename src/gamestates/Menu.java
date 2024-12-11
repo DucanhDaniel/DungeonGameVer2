@@ -32,11 +32,12 @@ public class Menu extends State implements Statemethods {
             else if (keyboardInputs.enterPressed) {
                 switch (commandNumber) {
                     case 0:
+                        game.startNewGame();
                         Gamestate.state = Gamestate.PLAYING;
                         needDisplayContinuePlaying = true;
                         break;
                     case 1:
-                        game.getPlaying().getSaveLoadSystem().loadGame();
+                        game.getPlaying().getSaveLoadSystem().loadSavedGame(game.getAuthSystem().username);
                         Gamestate.state = Gamestate.PLAYING;
                         break;
                     case 2:
