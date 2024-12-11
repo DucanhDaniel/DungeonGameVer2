@@ -1,7 +1,9 @@
 package gamestates;
 
+import enitystates.EntityState;
 import inputs.KeyboardInputs;
 import main.Game;
+import entities.Player;
 
 import java.awt.*;
 
@@ -31,7 +33,13 @@ public class GameOver extends State implements Statemethods{
             switch (commandIndex) {
                 case 0:
                     game.getPlaying().setDefaultValues();
+                    Player player = playing.getPlayer();
+                    player.currentState = EntityState.IDLE;
+                    System.out.println(player.currentHealth + " " + player.maxHealth);
                     playing.getSaveLoadSystem().loadGame(playing.currentLevel);
+
+                    game.getSelection().setPlayerStats(Selection.playerType, true);
+
                     playing.nextLevel = null;
                     playing.getPlayer().resetScreenPosition();
                     Gamestate.state = Gamestate.PLAYING;

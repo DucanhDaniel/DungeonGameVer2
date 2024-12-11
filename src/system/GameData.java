@@ -5,6 +5,7 @@ import data.NPCsData;
 import data.PlayerData;
 
 public class GameData {
+    public boolean isSaveFile;
     public String currentLevel;
     public PlayerData player;
     public MonstersData monsters;

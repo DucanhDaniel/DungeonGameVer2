@@ -33,6 +33,7 @@ public class SaveLoadSystem {
 
     public void saveGame() {
         GameData gameData = new GameData();
+        gameData.isSaveFile = true;
         gameData.currentLevel = playing.currentLevel;
         gameData.player.saveData(playing.getPlayer());
         gameData.monsters.saveData(playing.monsters);
@@ -61,7 +62,7 @@ public class SaveLoadSystem {
 
             playing.currentLevel = gameData.currentLevel;
 
-            gameData.player.loadData(playing.getPlayer());
+            gameData.player.loadData(playing.getPlayer(), gameData.isSaveFile);
             gameData.monsters.loadData(playing);
             gameData.npcsData.loadData(playing);
 

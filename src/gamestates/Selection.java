@@ -34,51 +34,48 @@ public class Selection extends State implements Statemethods {
             if (keyboardInputs.downPressed) commandNumber++;
             else if (keyboardInputs.upPressed) commandNumber--;
             else if (keyboardInputs.enterPressed) {
-                switch (commandNumber) {
-                    case 0: // Xa thu
-                        playerType = 0;
-                        player.speed = 4;
-                        player.maxArmor = 10;
-                        player.maxHealth = 12;
-                        player.maxMana = 30;
-                        player.currentArmor = player.maxArmor;
-                        player.currentHealth = player.maxHealth;
-                        player.currentMana = player.maxMana;
-                        player.attackPointSpear = 5;
-                        player.attackPointGun = 5;
-                        Gamestate.state = Gamestate.PLAYING;
-                        break;
-                    case 1: // Dau si
-                        playerType = 1;
-                        player.speed = 3;
-                        player.maxArmor = 10;
-                        player.maxHealth = 20;
-                        player.maxMana = 50;
-                        player.currentArmor = player.maxArmor;
-                        player.currentHealth = player.maxHealth;
-                        player.currentMana = player.maxMana;
-                        player.attackPointSpear = 5;
-                        player.attackPointGun = 2;
-                        Gamestate.state = Gamestate.PLAYING;
-                        break;
-                    case 2: // Sat thu
-                        playerType = 2;
-                        player.speed = 5;
-                        player.maxArmor = 10;
-                        player.maxHealth = 8;
-                        player.maxMana = 50;
-                        player.currentArmor = player.maxArmor;
-                        player.currentHealth = player.maxHealth;
-                        player.currentMana = player.maxMana;
-                        player.attackPointSpear = 5;
-                        player.attackPointGun = 2;
-                        Gamestate.state = Gamestate.PLAYING;
-                        break;
-                }
+                setPlayerStats(commandNumber, true);
+                playerType = commandNumber;
             }
             commandNumber = min(commandNumber, 2);
             commandNumber = max(commandNumber, 0);
         }
+    }
+    public void setPlayerStats(int playerType, boolean setCurrent) {
+        System.out.println(playerType);
+        switch (playerType) {
+            case 0: // Xa thu
+                player.speed = 4;
+                player.maxArmor = 10;
+                player.maxHealth = 12;
+                player.maxMana = 30;
+                player.attackPointSpear = 50;
+                player.attackPointGun = 5;
+                break;
+            case 1: // Dau si
+                player.speed = 3;
+                player.maxArmor = 10;
+                player.maxHealth = 20;
+                player.maxMana = 50;
+                player.attackPointSpear = 10;
+                player.attackPointGun = 2;
+                break;
+            case 2: // Sat thu
+                player.speed = 5;
+                player.maxArmor = 10;
+                player.maxHealth = 8;
+                player.maxMana = 50;
+                player.attackPointSpear = 5;
+                player.attackPointGun = 2;
+                break;
+        }
+        if (setCurrent) {
+            player.currentArmor = player.maxArmor;
+            player.currentHealth = player.maxHealth;
+            player.currentMana = player.maxMana;
+        }
+        Gamestate.state = Gamestate.PLAYING;
+
     }
 
     int frameCounter = 0;

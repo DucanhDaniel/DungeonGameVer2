@@ -26,11 +26,11 @@ public class Setting extends State implements Statemethods {
                 if (KeyboardInputs.isPressedValid("up", keyboardInputs.upPressed)) {
                     commandIndex--;
                     if (commandIndex < 0) commandIndex = 0;
-                    System.out.println(commandIndex);
+//                    System.out.println(commandIndex);
                 } else if (KeyboardInputs.isPressedValid("down", keyboardInputs.downPressed)) {
                     commandIndex++;
                     if (commandIndex > 2) commandIndex = 2;
-                    System.out.println(commandIndex);
+//                    System.out.println(commandIndex);
                 } else if (KeyboardInputs.isPressedValid("enter", keyboardInputs.enterPressed)) {
                     switch (commandIndex) {
                         case 0:
@@ -51,21 +51,21 @@ public class Setting extends State implements Statemethods {
             case volumeControlPanel:
                 if (KeyboardInputs.isPressedValid("up", keyboardInputs.upPressed)) {
                     if (commandIndex > 0) commandIndex--;
-                    System.out.println(commandIndex);
+//                    System.out.println(commandIndex);
                 } else if (KeyboardInputs.isPressedValid("down", keyboardInputs.downPressed)) {
                     if (commandIndex < 2) commandIndex++;
-                    System.out.println(commandIndex);
+//                    System.out.println(commandIndex);
                 } else if (KeyboardInputs.isPressedValid("left", keyboardInputs.leftPressed)) {
                     if (currentVolume >= 10 && commandIndex == 0) {
                         currentVolume -= 10;
                         playing.soundtrack.setVolume(currentVolume / 100f);
-                        System.out.println(currentVolume);
+//                        System.out.println(currentVolume);
                     }
                 } else if (KeyboardInputs.isPressedValid("right", keyboardInputs.rightPressed)) {
                     if (currentVolume <= 90 && commandIndex == 0) {
                         currentVolume += 10;
                         playing.soundtrack.setVolume(currentVolume / 100f);
-                        System.out.println(currentVolume);
+//                        System.out.println(currentVolume);
                     }
                 } else if (KeyboardInputs.isPressedValid("enter", keyboardInputs.enterPressed)) {
                     switch (commandIndex) {

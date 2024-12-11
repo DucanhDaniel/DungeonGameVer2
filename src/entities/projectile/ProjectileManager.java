@@ -53,7 +53,7 @@ public class ProjectileManager {
 
     public void addProjectile(Projectile projectile) {
         projectileList.add(projectile);
-        System.out.println(projectileList.size());
+//        System.out.println(projectileList.size());
     }
 
     public void draw(Graphics2D g2) {
