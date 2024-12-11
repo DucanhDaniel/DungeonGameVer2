@@ -1,4 +1,5 @@
 {
+  "isSaveFile": false,
   "currentLevel": "level3",
   "player" : {
     "worldX" : 232,
@@ -10,7 +11,9 @@
     "currentArmor" : 10,
     "maxArmor" : 10,
     "direction" : "down",
-    "currentWeapon" : "NORMAL"
+    "currentWeapon" : "NORMAL",
+    "attackPointSpear": 0,
+    "attackPointGun": 0
   },
   "monsters" : {
     "monstersData" : [ {

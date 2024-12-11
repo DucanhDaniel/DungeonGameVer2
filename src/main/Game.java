@@ -2,7 +2,6 @@ package main;
 
 import java.awt.*;
 
-import data.SaveLoad;
 import data.SaveLoadSystem;
 import gamestates.*;
 import gamestates.Menu;
@@ -19,20 +18,23 @@ public class Game implements Runnable {
     private GameWindow gameWindow;
     private Playing playing;
     private Menu menu;
+    private Selection selection;
     private CutScene cutScene;
     private GameOver gameOver;
     private final CollisionChecker collisionChecker;
     private Pause pause;
+    private Setting setting;
     private UI ui;
 
     private SaveLoadSystem settings = new SaveLoadSystem(this);
+
     public SaveLoadSystem getSettings() {
         return settings;
     }
+
     public CollisionChecker getCollisionChecker() {
         return collisionChecker;
     }
-
 
     public Playing getPlaying() {
         return playing;
@@ -42,8 +44,16 @@ public class Game implements Runnable {
         return menu;
     }
 
+    public Selection getSelection() {
+        return selection;
+    }
+
     public Pause getPause() {
         return pause;
+    }
+
+    public Setting getSetting() {
+        return setting;
     }
 
     public KeyboardInputs getKeyboardInputs() {
@@ -71,7 +81,9 @@ public class Game implements Runnable {
     public void initClasses() {
         menu = new Menu(this);
         playing = new Playing(this);
+        selection = new Selection(this);
         pause = new Pause(this);
+        setting = new Setting(this);
         gameOver = new GameOver(this);
         cutScene = new CutScene(this);
     }
@@ -129,11 +141,17 @@ public class Game implements Runnable {
             case MENU:
                 menu.update();
                 break;
+            case SELECTION:
+                selection.update();
+                break;
             case PLAYING:
                 playing.update();
                 break;
             case PAUSE:
                 pause.update();
+                break;
+            case SETTING:
+                setting.update();
                 break;
             case GAME_OVER:
                 gameOver.update();
@@ -152,11 +170,17 @@ public class Game implements Runnable {
             case MENU:
                 menu.draw(g);
                 break;
+            case SELECTION:
+                selection.draw(g);
+                break;
             case PLAYING:
                 playing.draw(g);
                 break;
             case PAUSE:
                 pause.draw(g);
+                break;
+            case SETTING:
+                setting.draw(g);
                 break;
             case GAME_OVER:
                 gameOver.draw(g);

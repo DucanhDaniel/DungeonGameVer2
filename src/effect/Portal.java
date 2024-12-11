@@ -40,7 +40,7 @@ public class Portal extends EffectMethod {
     Random random = new Random();
 
     public void createNewMonster() {
-        System.out.println("Yeahhhh");
+//        System.out.println("Yeahhhh");
         Playing playing = entity.getPlaying();
         int x = random.nextInt(3);
         Monster monster = null;

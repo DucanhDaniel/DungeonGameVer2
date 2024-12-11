@@ -1,14 +1,15 @@
 package gamestates;
 
+import entities.Entity;
+import entities.Player;
 import inputs.KeyboardInputs;
 import main.Game;
+import utils.Constants;
 import utils.ImageLoader;
 import utils.ImageManager;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.InputStream;
 
 import static inputs.KeyboardInputs.isPressedValid;
 import static java.lang.Math.max;
@@ -16,12 +17,15 @@ import static java.lang.Math.min;
 import static utils.Constants.Screen.*;
 import static utils.HelpMethods.*;
 
-public class Menu extends State implements Statemethods {
-    public Menu(Game game) {
+public class Selection extends State implements Statemethods {
+    Player player;
+    public static int playerType = -1;
+
+    public Selection(Game game) {
         super(game);
+        player = game.getPlaying().getPlayer();
     }
 
-    private boolean needDisplayContinuePlaying = false;
     public void update() {
         KeyboardInputs keyboardInputs = game.getKeyboardInputs();
         if (isPressedValid("up", keyboardInputs.upPressed) ||
@@ -30,27 +34,47 @@ public class Menu extends State implements Statemethods {
             if (keyboardInputs.downPressed) commandNumber++;
             else if (keyboardInputs.upPressed) commandNumber--;
             else if (keyboardInputs.enterPressed) {
-                switch (commandNumber) {
-                    case 0:
-                        if(!needDisplayContinuePlaying) Gamestate.state = Gamestate.SELECTION;
-                        else Gamestate.state = Gamestate.PLAYING;
-                        needDisplayContinuePlaying = true; // Nghia la game dang duoc choi roi
-                        break;
-                    case 1:
-                        game.getPlaying().getSaveLoadSystem().loadGame();
-                        Gamestate.state = Gamestate.PLAYING;
-                        break;
-                    case 2:
-                        Gamestate.state = Gamestate.SETTING;
-                        break;
-                    case 3:
-                        System.exit(0);
-                        break;
-                }
+                setPlayerStats(commandNumber, true);
+                playerType = commandNumber;
             }
-            commandNumber = min(commandNumber, 3);
+            commandNumber = min(commandNumber, 2);
             commandNumber = max(commandNumber, 0);
         }
+    }
+    public void setPlayerStats(int playerType, boolean setCurrent) {
+        System.out.println(playerType);
+        switch (playerType) {
+            case 0: // Xa thu
+                player.speed = 4;
+                player.maxArmor = 10;
+                player.maxHealth = 12;
+                player.maxMana = 30;
+                player.attackPointSpear = 50;
+                player.attackPointGun = 5;
+                break;
+            case 1: // Dau si
+                player.speed = 3;
+                player.maxArmor = 10;
+                player.maxHealth = 20;
+                player.maxMana = 50;
+                player.attackPointSpear = 10;
+                player.attackPointGun = 2;
+                break;
+            case 2: // Sat thu
+                player.speed = 5;
+                player.maxArmor = 10;
+                player.maxHealth = 8;
+                player.maxMana = 50;
+                player.attackPointSpear = 5;
+                player.attackPointGun = 2;
+                break;
+        }
+        if (setCurrent) {
+            player.currentArmor = player.maxArmor;
+            player.currentHealth = player.maxHealth;
+            player.currentMana = player.maxMana;
+        }
+        Gamestate.state = Gamestate.PLAYING;
 
     }
 
@@ -98,11 +122,9 @@ public class Menu extends State implements Statemethods {
         BufferedImage image = imageManager.getPlayerImage("WALK", "NORMAL", direction, animationIndex, 3 * TILE_SIZE, 4 * TILE_SIZE);
         g2.drawImage(image, x - 16 * 4, y - 16 * 4, 48 * 5, 64 * 5, null);
 
-        // Menu
+        // Selection
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
-        String text = "New game";
-        if (needDisplayContinuePlaying)
-            text = "Continue game";
+        String text = "Markman";
         x = getXForCenterText(text, g2);
         y = getYForCenterText(text, g2) + TILE_SIZE * 3 / 2;
         g2.drawString(text, x, y);
@@ -110,7 +132,7 @@ public class Menu extends State implements Statemethods {
             g2.drawString("->", x - TILE_SIZE, y);
         }
 
-        text = "Load game";
+        text = "Fighter";
         x = getXForCenterText(text, g2);
         y += TILE_SIZE;
         g2.drawString(text, x, y);
@@ -118,22 +140,12 @@ public class Menu extends State implements Statemethods {
             g2.drawString("->", x - TILE_SIZE, y);
         }
 
-        text = "Settings";
+        text = "Slayers";
         x = getXForCenterText(text, g2);
         y += TILE_SIZE;
         g2.drawString(text, x, y);
         if (commandNumber == 2) {
             g2.drawString("->", x - TILE_SIZE, y);
         }
-
-        text = "Quit";
-        x = getXForCenterText(text, g2);
-        y += TILE_SIZE;
-        g2.drawString(text, x, y);
-        if (commandNumber == 3) {
-            g2.drawString("->", x - TILE_SIZE, y);
-        }
     }
-
-
 }
