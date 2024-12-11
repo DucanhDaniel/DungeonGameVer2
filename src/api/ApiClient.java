@@ -1,12 +1,18 @@
 package api;
 
+import entities.Player;
 import main.Game;
 
 public class ApiClient {
     private final HttpClient httpClient;
+    private String username;
 
-    public ApiClient() {
+    private Game game;
+
+    public ApiClient(Game game) {
+        this.game = game;
         this.httpClient = new HttpClient();
+
     }
 
     public boolean authenticate(String username, String password) {
@@ -17,6 +23,7 @@ public class ApiClient {
             String response = httpClient.sendPost(endpoint, jsonInputString);
             if (response.equalsIgnoreCase("Login successful")) {
                 System.out.println("Login Successful!");
+                this.username = username;
                 return true;
             } else {
                 System.out.println("Invalid credentials!");
@@ -50,14 +57,40 @@ public class ApiClient {
         }
     }
 
-    public int getCurrentLevelByUsername(String username) {
-        String endpoint = "/current-level/" + username;
+// ------------- Record api -------------
+    public void saveRecord(Player player) {
+        String endpoint = "/record";
+        String jsonInputString = "{\"username\": \"" + username +
+                                    "\", \"time\": \"" + game.totalElapsedTime +
+                                    "\", \"health\": \"" + player.currentHealth +
+                                    "\", \"mana\": \"" + player.currentMana  + "}";
         try {
-            String response = httpClient.sendGet(endpoint);
-            return Integer.parseInt(response);
+            String response = httpClient.sendPost(endpoint, jsonInputString);
+            System.out.println(response);
         } catch (Exception e) {
             e.printStackTrace();
-            return -1;
+            System.out.println("Failed to save!");
         }
     }
+
+    public String getPlayerHistory(String username) {
+        String endpoint = "/record/user/" + username;
+        try {
+            return httpClient.sendGet(endpoint);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed to get player history!";
+        }
+    }
+
+    public String getRank() {
+        String endpoint = "/record/rank";
+        try {
+            return httpClient.sendGet(endpoint);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Falied to get rank!";
+        }
+    }
+// --------------------------------------
 }

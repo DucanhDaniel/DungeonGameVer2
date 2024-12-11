@@ -100,7 +100,10 @@ public class Playing extends State implements Statemethods {
     public void setUpList() {
         entityList = new ArrayList<>();
         entityList.add(player);
-        entityList.addAll(monsters);
+        for (Monster monster : monsters) {
+            if (monster != null && monster.currentHealth > 0)
+                entityList.add(monster);
+        }
         entityList.addAll(Arrays.asList(npcArray));
     }
 

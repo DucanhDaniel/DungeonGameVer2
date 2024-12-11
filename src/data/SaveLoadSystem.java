@@ -1,5 +1,4 @@
 package data;
-import api.ApiClient;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gamestates.Playing;

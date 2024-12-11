@@ -65,6 +65,11 @@ public class EnergyOrb extends EffectMethod{
         if (isIntersect()) {
             if (KeyboardInputs.isPressedValid("enter", kb.enterPressed) && currentStage == 1) {
                 currentStage++;
+
+//                ---- save Record ------
+                playing.getGame().stopGame();
+
+//                playing.getGame().api.saveRecord(playing.getPlayer());
             }
         }
     }

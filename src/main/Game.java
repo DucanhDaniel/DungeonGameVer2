@@ -81,7 +81,7 @@ public class Game implements Runnable {
         gameOver = new GameOver(this);
         cutScene = new CutScene(this);
         login = new Login(this);
-        api = new ApiClient();
+        api = new ApiClient(this);
         authSystem = new AuthSystem(this);
     }
 
