@@ -142,12 +142,12 @@ public class Login extends State implements Statemethods{
 
         y += TILE_SIZE * 2 + 110;
         String usernamePrompt = "Username: " + username;
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 26F));
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 26F));
         g2.drawString(usernamePrompt, SCREEN_WIDTH / 2 - 200, y);
 
         y += TILE_SIZE;
         String displayPassword = "*".repeat(password.length());
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 26F));
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 26F));
         g2.drawString("Password: " + displayPassword, SCREEN_WIDTH / 2 - 200, y);
 
 

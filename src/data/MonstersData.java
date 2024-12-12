@@ -43,7 +43,7 @@ public class MonstersData {
     public void loadData(Playing playing) {
 //        playing.monsters = new Monster[monstersData.size()]
         playing.monsters = new ArrayList<>();
-        System.out.println(monstersData.size());
+//        System.out.println(monstersData.size());
 
         for (MonsterData monsterData : monstersData) {
             Monster monster = createMonster(playing, monsterData.name,

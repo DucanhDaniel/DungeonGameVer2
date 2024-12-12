@@ -89,6 +89,7 @@ public class EnergyOrb extends EffectMethod{
                 g2.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
                 removeEffect(0);
                 Gamestate.state = Gamestate.CUTSCENE;
+                playing.getGame().api.saveRecord(player);
             }
         }
     }

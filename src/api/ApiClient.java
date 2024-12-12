@@ -59,11 +59,12 @@ public class ApiClient {
 
 // ------------- Record api -------------
     public void saveRecord(Player player) {
-        String endpoint = "/record";
+        String endpoint = "/record/save";
         String jsonInputString = "{\"username\": \"" + username +
                                     "\", \"time\": \"" + game.totalElapsedTime +
                                     "\", \"health\": \"" + player.currentHealth +
-                                    "\", \"mana\": \"" + player.currentMana  + "}";
+                                    "\", \"mana\": \"" + player.currentMana  + "\"}";
+        System.out.println(jsonInputString);
         try {
             String response = httpClient.sendPost(endpoint, jsonInputString);
             System.out.println(response);
@@ -73,24 +74,17 @@ public class ApiClient {
         }
     }
 
-    public String getPlayerHistory(String username) {
-        String endpoint = "/record/user/" + username;
-        try {
-            return httpClient.sendGet(endpoint);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Failed to get player history!";
-        }
-    }
-
+// --------------------------------------
     public String getRank() {
         String endpoint = "/record/rank";
         try {
-            return httpClient.sendGet(endpoint);
+            String response = httpClient.sendGet(endpoint);
+            return response;
         } catch (Exception e) {
             e.printStackTrace();
-            return "Falied to get rank!";
+            System.out.println();
         }
+
+        return "Failed";
     }
-// --------------------------------------
 }

@@ -38,7 +38,7 @@ public class MonsterAttackSystem {
 
             monster.getDirectionForAttacking();
             Projectile projectile = new Projectile(playing,"MONSTER", monster);
-            playing.getProjectileManager().addProjectile(projectile);
+//            playing.getProjectileManager().addProjectile(projectile);
         }
     }
     public void update() {

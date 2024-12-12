@@ -9,6 +9,7 @@ import gamestates.*;
 import gamestates.Menu;
 import gamestates.auth.Login;
 import inputs.KeyboardInputs;
+import utils.ImageManager;
 import system.AuthSystem;
 
 import static utils.Constants.Screen.*;
@@ -16,14 +17,19 @@ import static utils.Constants.Screen.*;
 public class Game implements Runnable {
 
     private Thread gameThread;
+    public ImageManager imageManager;
     private GamePanel gamePanel;
     private GameWindow gameWindow;
     private Playing playing;
     private Menu menu;
+    private Selection selection;
     private CutScene cutScene;
     private GameOver gameOver;
     private final CollisionChecker collisionChecker;
     private Pause pause;
+
+    private ViewRank viewRank;
+    private Setting setting;
     private UI ui;
 
     private Login login;
@@ -32,13 +38,14 @@ public class Game implements Runnable {
     private AuthSystem authSystem;
 
     private SaveLoadSystem settings = new SaveLoadSystem(this);
+
     public SaveLoadSystem getSettings() {
         return settings;
     }
+
     public CollisionChecker getCollisionChecker() {
         return collisionChecker;
     }
-
 
     public Playing getPlaying() {
         return playing;
@@ -48,11 +55,21 @@ public class Game implements Runnable {
         return menu;
     }
 
+    public Selection getSelection() {
+        return selection;
+    }
+
     public Pause getPause() {
         return pause;
     }
 
+    public ViewRank getViewRank() { return viewRank; }
+
     public Login getLogin() { return login; }
+
+    public Setting getSetting() {
+        return setting;
+    }
 
     public KeyboardInputs getKeyboardInputs() {
         return gamePanel.getKeyboardInputs();
@@ -77,12 +94,15 @@ public class Game implements Runnable {
     public void initClasses() {
         menu = new Menu(this);
         playing = new Playing(this);
+        selection = new Selection(this);
         pause = new Pause(this);
+        setting = new Setting(this);
         gameOver = new GameOver(this);
         cutScene = new CutScene(this);
         login = new Login(this);
         api = new ApiClient(this);
         authSystem = new AuthSystem(this);
+        viewRank = new ViewRank(this);
     }
 
     private void startGameLoop() {
@@ -133,7 +153,6 @@ public class Game implements Runnable {
         }
     }
 
-
     public void update() {
         switch (Gamestate.state) {
             case LOGIN:
@@ -142,17 +161,26 @@ public class Game implements Runnable {
             case MENU:
                 menu.update();
                 break;
+            case SELECTION:
+                selection.update();
+                break;
             case PLAYING:
                 playing.update();
                 break;
             case PAUSE:
                 pause.update();
                 break;
+            case SETTING:
+                setting.update();
+                break;
             case GAME_OVER:
                 gameOver.update();
                 break;
             case CUTSCENE:
                 cutScene.update();
+                break;
+            case VIEW_RANK:
+                viewRank.update();
                 break;
             default:
                 System.exit(0);
@@ -168,17 +196,26 @@ public class Game implements Runnable {
             case MENU:
                 menu.draw(g);
                 break;
+            case SELECTION:
+                selection.draw(g);
+                break;
             case PLAYING:
                 playing.draw(g);
                 break;
             case PAUSE:
                 pause.draw(g);
                 break;
+            case SETTING:
+                setting.draw(g);
+                break;
             case GAME_OVER:
                 gameOver.draw(g);
                 break;
             case CUTSCENE:
                 cutScene.draw(g);
+                break;
+            case VIEW_RANK:
+                viewRank.draw(g);
                 break;
             default:
                 break;

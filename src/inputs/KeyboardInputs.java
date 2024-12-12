@@ -17,6 +17,7 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
     public boolean attackPressed; // J pressed
     public boolean changWeaponPressed; // L pressed
     public boolean pausePressed; // P pressed
+    public boolean escapePressed; // Escape pressed
 
     public int mousePressedScreenX, mousePressedScreenY;
 
@@ -85,9 +86,8 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
         if (code == KeyEvent.VK_K) skillActivePressed = false;
         if (code == KeyEvent.VK_J) attackPressed = false;
         if (code == KeyEvent.VK_L) changWeaponPressed = false;
-        if (code == KeyEvent.VK_P) {
-            pausePressed = false;
-        }
+        if (code == KeyEvent.VK_P) pausePressed = false;
+        if (code == KeyEvent.VK_ESCAPE) escapePressed = false;
     }
 
     @Override
@@ -119,9 +119,8 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
         if (code == KeyEvent.VK_K) skillActivePressed = true;
         if (code == KeyEvent.VK_J) attackPressed = true;
         if (code == KeyEvent.VK_L) changWeaponPressed = true;
-        if (code == KeyEvent.VK_P) {
-            pausePressed = true;
-        }
+        if (code == KeyEvent.VK_P) pausePressed = true;
+        if (code == KeyEvent.VK_ESCAPE) escapePressed = true;
 
     }
     public int getMouseX() {
@@ -132,7 +131,8 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
     }
 
 
-    public static boolean prevUp = false, prevDown = false, prevLeft = false, prevRight = false;
+
+    public static boolean prevUp = false, prevDown = false, prevLeft = false, prevRight = false, prevEscape = false;
     public static boolean prevPause = false, prevEnter = false, prevAttack;
     public static boolean isPressedValid(String code, boolean keyPressed) {
         switch (code) {
@@ -197,6 +197,15 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
                     return true;
                 }
                 prevRight = false;
+                return false;
+            }
+            case "escape" -> {
+                if (keyPressed) {
+                    if (prevEscape) return false;
+                    prevEscape = true;
+                    return true;
+                }
+                prevEscape = false;
                 return false;
             }
         }

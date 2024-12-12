@@ -64,7 +64,7 @@ public class SkeletonReaper extends Boss {
             castAttack();
         }
     }
-
+    boolean isHealing = false;
     int smCnt = 0;
     private void castAttack() {
         Player player = playing.getPlayer();
@@ -78,6 +78,7 @@ public class SkeletonReaper extends Boss {
                 portals[0] = new Portal(this, getWorldX() - TILE_SIZE * 2, getWorldY(), 0);
                 portals[1] = new Portal(this, getWorldX() + TILE_SIZE * 2, getWorldY(), 1);
                 portals[2] = new Portal(this, getWorldX(), getWorldY() + TILE_SIZE * 2, 2);
+                isHealing = true;
             }
             if (electricBurst == null) {
                 electricBurst = new ElectricBurst(this, player.getWorldX(), player.getWorldY(), 0);
@@ -161,6 +162,12 @@ public class SkeletonReaper extends Boss {
             dash.update();
         }
         else speed = 4;
+
+        if (isHealing) {
+            if (currentHealth + 2 <= maxHealth)
+                currentHealth += 1;
+            else isHealing = false;
+        }
     }
 
     @Override

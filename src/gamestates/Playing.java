@@ -38,8 +38,6 @@ public class Playing extends State implements Statemethods {
     // Camera shake
     public CameraShake cameraShake;
 
-
-    private ProjectileManager projectileManager;
     public CollectibleSystem collectibleSystem;
     public DoorSystem doorSystem;
     private RenderSystem renderSystem;
@@ -69,6 +67,7 @@ public class Playing extends State implements Statemethods {
 
         ImageLoader.initialize();
         imageManager = ImageLoader.imageManager;
+        player = new Player(this);
         setDefaultValues();
 
         soundtrack = new Sound();
@@ -78,12 +77,7 @@ public class Playing extends State implements Statemethods {
         saveLoadSystem.loadNewGame(currentLevel);
     }
 
-    private void loadGame(String currentLevel) {
-
-    }
-
     public void setDefaultValues() {
-        player = new Player(this);
         tileManager = new TileManager(player);
         doorSystem = new DoorSystem();
         monsterAreaSystem = new MonsterAreaSystem();
@@ -101,8 +95,7 @@ public class Playing extends State implements Statemethods {
         entityList = new ArrayList<>();
         entityList.add(player);
         for (Monster monster : monsters) {
-            if (monster != null && monster.currentHealth > 0)
-                entityList.add(monster);
+            if (monster.currentHealth > 0) entityList.add(monster);
         }
         entityList.addAll(Arrays.asList(npcArray));
     }
@@ -121,7 +114,6 @@ public class Playing extends State implements Statemethods {
 
     public RenderSystem getRenderSystem() { return renderSystem; }
 
-    public ProjectileManager getProjectileManager() { return projectileManager; }
 
     public DoorSystem getDoorSystem() { return doorSystem; }
 
@@ -137,7 +129,7 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void update() {
-        System.out.println(player.worldX + " " + player.worldY);
+//        System.out.println(player.worldX + " " + player.worldY);
         cameraShake.update();
 
         if (npcTalking != null) {
@@ -164,16 +156,11 @@ public class Playing extends State implements Statemethods {
         }
 
         if  (currentLevel.equals("level4") && energyOrb == null) {
-            boolean allMonstersDeath = true;
             for (Monster monster : monsters) {
-                if (monster.currentState != EntityState.DEATH || monster.image != null) {
-                    allMonstersDeath = false;
-                    break;
-                }
+                if (monster instanceof SkeletonReaper && monster.currentState == EntityState.DEATH)
+                    energyOrb = new EnergyOrb(this, 1220, 577);
             }
-            if (allMonstersDeath) {
-                energyOrb = new EnergyOrb(this, 1220, 577);
-            }
+
         }
 
         entityList.removeIf(entity -> entity.image == null && entity.currentState == EntityState.DEATH);
@@ -209,14 +196,14 @@ public class Playing extends State implements Statemethods {
         if (nextLevel != null) {
             nextLevel.update();
         }
-        for (Monster monster : monsters) {
-            if (monster.currentState == EntityState.DEATH) {
-                System.out.print(0);
-            } else {
-                System.out.print(1);
-            }
-        }
-        System.out.println();
+//        for (Monster monster : monsters) {
+//            if (monster.currentState == EntityState.DEATH) {
+//                System.out.print(0);
+//            } else {
+//                System.out.print(1);
+//            }
+//        }
+//        System.out.println();
     }
 
     @Override

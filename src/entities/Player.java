@@ -5,6 +5,7 @@ import enitystates.*;
 import entities.monsters.Monster;
 import gamestates.Gamestate;
 import gamestates.Playing;
+import gamestates.Selection;
 import inputs.KeyboardInputs;
 import main.CollisionChecker;
 import utils.Constants;
@@ -64,17 +65,17 @@ public class Player extends Sprite {
         worldY = 1693;
 
 
-        speed = 4;
-        maxArmor = 10;
-        maxHealth = 12;
-        maxMana = 200;
+//        speed = 4;
+//        maxArmor = 10;
+//        maxHealth = 12;
+//        maxMana = 200;
+//        currentArmor = maxArmor;
+//        currentHealth = maxHealth;
+//        currentMana = maxMana;
+//        attackPointSpear = 5;
+//        attackPointGun = 5;
         armorGenTime = 90; // 1.5 seconds between increasing 1 armor point
         outOfCombatTime = 360 - armorGenTime; // After 6 seconds out of combat, armor will be generated
-        currentArmor = maxArmor;
-        currentHealth = maxHealth;
-        currentMana = maxMana;
-        attackPointSpear = 5;
-        attackPointGun = 5;
         spearAttackRange = 3 * TILE_SIZE;
         gunAttackRange = 10 * TILE_SIZE;
         manaCostPerShot = 1;
@@ -310,12 +311,30 @@ public class Player extends Sprite {
     }
 
     public int getSpeed() {
+        int walkSpeed = 0, runSpeed = 0;
+        switch (Selection.playerType) {
+            case 0: // Xa thu
+                walkSpeed = 4;
+                runSpeed = 5;
+                break;
+            case 1: // Dau si
+                walkSpeed = 3;
+                runSpeed = 4;
+                break;
+            case 2: // Sat thu
+                walkSpeed = 5;
+                runSpeed = 6;
+                break;
+            default:
+                break;
+        }
+
         if (currentState == EntityState.WALK) {
-            if (dash != null) return 5;
-            return 4;
+            if (dash != null) return runSpeed;
+            return walkSpeed;
         } else if (currentState == EntityState.RUN) {
-            if (dash != null) return 5;
-            return 5;
+            if (dash != null) return runSpeed;
+            return runSpeed;
         }
         return 0;
     }

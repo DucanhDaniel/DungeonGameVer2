@@ -2,6 +2,7 @@ package data;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gamestates.Playing;
+import gamestates.State;
 import main.Game;
 import system.*;
 
@@ -16,7 +17,8 @@ public class SaveLoadSystem {
 
     private CollectibleSystem collectibleSystem;
 
-    ObjectMapper objectMapper;
+
+    private ObjectMapper objectMapper;
 
     public SaveLoadSystem(Game game) {
         this.game = game;
@@ -34,6 +36,7 @@ public class SaveLoadSystem {
 
     public void saveGame() {
         GameData gameData = new GameData();
+        gameData.isSaveFile = true;
         gameData.currentLevel = playing.currentLevel;
         gameData.timer = game.totalElapsedTime;
         gameData.player.saveData(playing.getPlayer());
@@ -76,7 +79,7 @@ public class SaveLoadSystem {
             playing.currentLevel = gameData.currentLevel;
             game.totalElapsedTime = gameData.timer;
 
-            gameData.player.loadData(playing.getPlayer());
+            gameData.player.loadData(playing.getPlayer(), gameData.isSaveFile);
             gameData.monsters.loadData(playing);
             gameData.npcsData.loadData(playing);
 
@@ -128,9 +131,9 @@ public class SaveLoadSystem {
             // Load data
             Settings settings = (Settings) ois.readObject();
 
-            game.getPause().currentVolume = settings.volume;
-            game.getPause().isSoundtrackOn = settings.isSoundtrackOn;
-            game.getPause().isSoundEffectOn = settings.isSoundEffectOn;
+            State.currentVolume = settings.volume;
+            State.isSoundtrackOn = settings.isSoundtrackOn;
+            State.isSoundEffectOn = settings.isSoundEffectOn;
 
             game.getPlaying().soundtrack.setVolume(settings.volume / 100f);
 
