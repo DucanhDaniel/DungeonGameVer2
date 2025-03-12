@@ -10,6 +10,12 @@ Unwilling to accept his fate, armed with weapons forged from his scientific know
 ### Game demo ###
 https://www.youtube.com/watch?v=gUDwzyrgRlI
 
+![image](https://github.com/user-attachments/assets/4b978f5a-7fe1-45e0-ac28-88519e95da47)
+
+![Screenshot 2024-11-26 020133](https://github.com/user-attachments/assets/7f1dccaa-c614-41ae-a4b9-36eb08921296)
+
+![image](https://github.com/user-attachments/assets/eed07832-1b82-4869-98e6-1068c630ca00)
+
 ### How to use ###
 1. Run this command in terminal:
 git clone https://github.com/DucanhDaniel/DungeonGameVer2
@@ -17,3 +23,5 @@ git clone https://github.com/DucanhDaniel/DungeonGameVer2
 3. Run the client to start the game
 4. Enter username and password, current account has username is: "user1" and password is "1"
 5. Run the game and enjoy!
+
+
